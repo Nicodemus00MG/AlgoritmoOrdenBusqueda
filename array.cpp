@@ -17,9 +17,14 @@
 #include <ctime>
 
 using namespace std;
-
+//! prototipos funciones
 void generarArray(int tamanio, int array[]);
-
+void listarArray(int tamanio, int array[]);
+void ordenBurbuja(int tamanio, int array[]);
+void ordenInsercion(int tamanio, int array[]);
+void ordenSeleccion(int tamanio, int array[]);
+void ordenHeapSort(int tamanio,int array[]);
+void ordenQuickSort(int tamanio,int array[]);
 int main()
 {
     srand(time(0));
@@ -54,9 +59,20 @@ int main()
         switch (op)
         {
         case 'A':
+            cout << "\n......GENERANDO ARRAY.......\n";
+
             generarArray(tamanio, array);
 
             break;
+        case 'B':
+            cout << "\n......ORDEN BURBUJA.......\n";
+            ordenBurbuja(tamanio, array);
+            listarArray(tamanio, array);
+            break;
+            case 'C':
+            cout<<"\n.....ORDEN INSERCION LINEAL.......\n";
+            ordenInsercion(tamanio,array);
+            listarArray(tamanio,array);
         case 'S':
             cout << "\nGracias por usar esta app!" << endl;
             flag = false;
@@ -69,10 +85,52 @@ int main()
     return 0;
 }
 
-void ordenBurbuja(int tamanio,int array[]){
 
+void listarArray(int tamanio, int array[])
+{
+    for (int i = 0; i < tamanio; i++)
+    {
+        cout << "Elemento "
+             << "[" << i + 1 << "]"
+             << ": " << array[i] << endl;
+    }
+}
 
-    
+void ordenBurbuja(int tamanio, int array[])
+{
+    // El bucle externo representa cada pase a través del array
+    for (int i = 0; i < tamanio - 1; ++i)
+    {
+        // El bucle interno compara y realiza intercambios
+        for (int j = 0; j < tamanio - i - 1; ++j)
+        {
+            // Comparar elementos adyacentes
+            if (array[j] > array[j + 1])
+            {
+                // Intercambiar si están en el orden incorrecto
+                int temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
+            }
+        }
+    }
+}
+void ordenInsercion(int tamanio, int array[])
+{
+        // Comenzamos desde el segundo elemento, ya que asumimos que el primer elemento está "ordenado"
+    for (int i = 1; i < tamanio; ++i) {
+        int valorActual = array[i];
+        int j = i - 1;
+
+        // Mover los elementos mayores que el valor actual a la derecha
+        while (j >= 0 && array[j] > valorActual) {
+            array[j + 1] = array[j];
+            --j;
+        }
+
+        // Colocar el valor actual en su posición correcta
+        array[j + 1] = valorActual;
+    }
 }
 
 void generarArray(int tamanio, int array[])
@@ -86,18 +144,13 @@ void generarArray(int tamanio, int array[])
 
     cout << "\nIngrese la posicion que desea para ingrear valor aleatorio de 1 a 100 \n";
     // Listar array de 0's para saber la posición y pedir datos al usuario según la posición
-    for (int i = 0; i < tamanio; i++)
-    {
-        cout << "Elemento "
-             << "[" << i + 1 << "]"
-             << ": " << array[i] << endl;
-    }
+    listarArray(tamanio, array);
 
     // Llenado de array según la posición
     for (int i = 0; i < tamanio; ++i)
     {
         int posicion;
-        cout << " elemento :" << i + 1 << ":10" << endl;
+        cout << " elemento :" << i + 1 << ":" << tamanio << endl;
         cout << "\nposicion seleccionada:";
         cin >> posicion;
 
@@ -110,12 +163,7 @@ void generarArray(int tamanio, int array[])
 
         // Llenar la posición con un número aleatorio hasta llegar a 100
         array[posicion - 1] = rand() % 100 + 1;
-        for (int i = 0; i < tamanio; i++)
-        {
-            cout << "Elemento "
-                 << "[" << i + 1 << "]"
-                 << ": " << array[i] << endl;
-        }
+        listarArray(tamanio, array);
     }
     cout << endl;
 
@@ -124,4 +172,27 @@ void generarArray(int tamanio, int array[])
     {
         cout << "Elemento " << i + 1 << " : " << array[i] << endl;
     }
+}
+
+void ordenSeleccion(int tamanio, int array[]){
+for (int i = 0; i < tamanio - 1; ++i) {
+        // Encontrar el índice del elemento más pequeño en el resto del array
+        int indiceMenor = i;
+        for (int j = i + 1; j < tamanio; ++j) {
+            if (array[j] < array[indiceMenor]) {
+                indiceMenor = j;
+            }
+        }
+
+        // Intercambiar el elemento más pequeño con el primer elemento no ordenado
+        int temp = array[i];
+        array[i] = array[indiceMenor];
+        array[indiceMenor] = temp;
+    }
+}
+void ordenHeapSort(int tamanio,int array[]){
+
+}
+void ordenQuickSort(int tamanio,int array[]){
+    
 }
