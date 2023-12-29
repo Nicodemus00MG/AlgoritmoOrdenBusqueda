@@ -1,20 +1,7 @@
 /*
  *Autor: Rosario
+ *fecha:29/12/23
  */
-
-/*
-? Crear un programa que contenga los siguientes elementos en su menú
-? OPCION A Generar un array de posiciones seleccionadas por el usuario que se llene de números randomicos hasta el numero 100
-? OPCION B Ordenar los elementos con el algoritmo de la burbuja
-? OPCION C Ordenar los elementos con el algoritmo de inserción lineal
-? OPCION D Ordenar los elementos con el algoritmo de selección
-? OPCION E Ordenar los elementos con el algoritmo de HeapSort(árbol)
-? OPCION F Ordenar los elementos con el algoritmo de QuickSort(rápido)
-? OPCION G Generar búsqueda de elemento con el algoritmo de búsqueda lineal
-? OPCION H Generar búsqueda de elemento con el algoritmo de búsqueda binaria
-? Todas las opciones del menú deben tener su propia función.
-
-*/
 
 #include <iostream>
 #include <cstdlib>
@@ -34,13 +21,16 @@ int particion(int array[], int bajo, int alto);
 void ordenQuickSort(int array[], int bajo, int alto, int tamanio);
 void heapify(int array[], int tamanio, int indice);
 void ordenHeapSort(int tamanio, int array[]);
-
+int busquedaLineal(int tamanio, int array[], int valorBuscar);
+int busquedaBinaria(int tamanio, int array[], int valorBuscar);
 int main()
 {
     srand(time(0));
 
     // Ingrese el tamaño del array
     int tamanio;
+    int elemento;
+    int indiceElementoEcontrado;
     cout << "Ingrese el tamanio del array (total de numeros): ";
     cin >> tamanio;
     int array[tamanio];
@@ -130,8 +120,40 @@ int main()
             break;
 
         case 'G':
+            cout << "\n........BUSQUEDA LINEAL...........\n";
+
+            cout << "\nIngrese elemento a buscar: \n";
+            cin >> elemento;
+            indiceElementoEcontrado = busquedaLineal(tamanio, array, elemento);
+            if (indiceElementoEcontrado != -1)
+            {
+                cout << "Elemento encontrado con exito! : \n";
+                cout << "Elemento= " << elemento << " / "
+                     << " Posicion: " << indiceElementoEcontrado + 1 << endl;
+            }
+            else
+            {
+
+                cout << "Elemento no esta en el array  :(  " << endl;
+            }
             break;
         case 'H':
+            cout << "\n........BUSQUEDA BINARIA...........\n";
+
+            cout << "\nIngrese elemento a buscar: \n";
+            cin >> elemento;
+            indiceElementoEcontrado = busquedaBinaria(tamanio, array, elemento);
+            if (indiceElementoEcontrado != -1)
+            {
+                cout << "Elemento encontrado con exito! : \n";
+                cout << "Elemento= " << elemento << " / "
+                     << " Posicion: " << indiceElementoEcontrado + 1 << endl;
+            }
+            else
+            {
+
+                cout << "Elemento no esta en el array  :(  " << endl;
+            }
             break;
 
         case 'S':
@@ -341,4 +363,40 @@ void ordenHeapSort(int tamanio, int array[])
         intercambiar(array[0], array[i]);
         heapify(array, i, 0);
     }
+}
+
+int busquedaLineal(int tamanio, int array[], int valorBuscar)
+{
+    for (int i = 0; i < tamanio; ++i)
+    {
+        if (array[i] == valorBuscar)
+        {
+            return i; // Se encontró el valor, se devuelve la posición
+        }
+    }
+    return -1; // El valor no se encontró en el array
+}
+
+int busquedaBinaria(int tamanio, int array[], int valorBuscar)
+{
+    int izquierda = 0, derecha = tamanio - 1;
+
+    while (izquierda <= derecha)
+    {
+        int medio = izquierda + (derecha - izquierda) / 2;
+
+        // Verificar si el valor está en el medio
+        if (array[medio] == valorBuscar)
+            return medio;
+
+        // Si el valor está en la mitad derecha del array, descartar la mitad izquierda
+        if (array[medio] < valorBuscar)
+            izquierda = medio + 1;
+        // Si el valor está en la mitad izquierda del array, descartar la mitad derecha
+        else
+            derecha = medio - 1;
+    }
+
+    // El valor no se encuentra en el array
+    return -1;
 }
